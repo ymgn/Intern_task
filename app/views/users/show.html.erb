@@ -1,8 +1,13 @@
-<p id="notice"><%= notice %></p>
 <h1>プロフィール</h1>
+
+<%= gravatar_for @user%>
 <p>
   <strong>名前:</strong>
   <%= @user.name %>
+</p>
+<p>
+  <strong>メールアドレス:</strong>
+  <%= @user.email %>
 </p>
 
 <p>
