@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :reactions
   resources :user_skills
   resources :skills
   resources :users
