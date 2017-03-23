@@ -65,7 +65,7 @@ class UsersController < ApplicationController
 
   # ユーザー管理用ページ
   def list
-    @Users = User.all
+    @users = User.all
   end
 
   # ユーザーにスキルを追加

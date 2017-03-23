@@ -17,7 +17,7 @@
   <%= @user.introduction %>
 </p>
 
-<h3>スキル</h3><%= params[:id] %>
+<h3>スキル</h3>
 <%= form_tag("/users/#{params[:id]}/add_skill", method: "post") do %>
   <%= label_tag(:skill, "スキル名") %>
   <%= text_field_tag(:skill) %>
