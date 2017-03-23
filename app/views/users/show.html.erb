@@ -25,10 +25,24 @@
 <% end %>
 <table>
   <tbody>
+    <tr>
+      <th>スキル名</th>
+      <th>+の数</th>
+      <th>　+した人</th>
+      <th></th>
+      <th></th>
+    </tr>
     <% @skills.each do |skill| %>
       <tr>
         <td><%= skill.name %></td>
-        <td><%= @skill_reaction[skill.id].length %></td>
+        <td>+<%= @skill_reaction[skill.id].length %></td>
+        <td>
+          <% if @skill_reaction[skill.id] != "" %>
+            <% @skill_reaction[skill.id].each do |s_r| %>
+              <%= s_r.name %>
+            <% end %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', skill %></td>
         <%= form_tag("/users/#{params[:id]}/#{skill.id}", method: "post", :name => :reaction) do %>
         <td>
@@ -39,5 +53,4 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
