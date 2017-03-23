@@ -63,6 +63,26 @@ class UsersController < ApplicationController
     end
   end
 
+  # ユーザー管理用ページ
+  def list
+    @users = User.all
+  end
+
+  # ユーザーにスキルを追加
+  def add_skill
+    # 既に同じスキルがリストにあればIDをとってくる
+    if(Skill.has_skill(params[:skill]))
+      # スキルがあった場合
+      skill_id = Skill.find_by(name: params[:skill]).id
+    else
+      objSkill = Skill.create(name: params[:skill])
+      skill_id = objSkill.id
+    end
+# binding.pry
+    @user_skill = UserSkill.create(user_id: params[:user_id], skill_id: skill_id)
+    redirect_to :action => "show", :id => params[:user_id]
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
