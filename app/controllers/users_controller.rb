@@ -30,6 +30,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         log_in @user
+        flash[:success] = "ユーザーを作成しました"
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -70,17 +71,29 @@ class UsersController < ApplicationController
 
   # ユーザーにスキルを追加
   def add_skill
-    # 既に同じスキルがリストにあればIDをとってくる
+    user = User.find(params[:user_id])
+    # 既に同じスキルがスキルテーブルにあればIDをとってくる
     if(Skill.has_skill(params[:skill]))
       # スキルがあった場合
       skill_id = Skill.find_by(name: params[:skill]).id
     else
+      # スキルが無い場合スキルテーブルに追加
       objSkill = Skill.create(name: params[:skill])
       skill_id = objSkill.id
     end
-# binding.pry
-    @user_skill = UserSkill.create(user_id: params[:user_id], skill_id: skill_id)
-    redirect_to :action => "show", :id => params[:user_id]
+    
+    # ユーザーが同じスキルを持っていた場合
+    if (user.skill.exists?(id: skill_id))
+      # ユーザーが持っているスキル
+      flash[:danger] = "既にあるスキルです"
+      redirect_to :action => "show", :id => params[:user_id]
+    else
+      # ユーザーがまだ持っていないスキル
+      @user_skill = UserSkill.create(user_id: params[:user_id], skill_id: skill_id)
+      flash[:success] = "スキルを追加しました"
+      redirect_to :action => "show", :id => params[:user_id]
+    end
+
   end
 
   private

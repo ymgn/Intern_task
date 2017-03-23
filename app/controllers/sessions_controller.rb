@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       # ユーザーログイン後にユーザーのプロフィールにリダイレクト
       log_in user
+      flash[:success] = "ログインしました"
       redirect_to user
     else
       # エラーメッセージを作成
