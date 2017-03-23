@@ -28,7 +28,13 @@
     <% @skills.each do |skill| %>
       <tr>
         <td><%= skill.name %></td>
+        <td><%= @skill_reaction[skill.id].length %></td>
         <td><%= link_to 'Show', skill %></td>
+        <%= form_tag("/users/#{params[:id]}/#{skill.id}", method: "post", :name => :reaction) do %>
+        <td>
+          <%= submit_tag("+1") %>
+        </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

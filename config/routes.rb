@@ -16,5 +16,7 @@ Rails.application.routes.draw do
 
   # ユーザープロフィールからスキルを追加する用
   post '/users/:user_id/add_skill', to: 'users#add_skill'
+  # ユーザープロフィールからスキルに+1を追加する用
+  post '/users/:user_id/:skill_id', to: 'users#add_reaction'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
