@@ -10,7 +10,19 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @skills = User.find(params[:id]).skill
+    user = User.find(params[:id])
+    # プロフィールのユーザーのスキル一覧
+    @skills = user.skill
+    # スキルのリアクション数
+    @skill_reaction = {}
+    user.user_skills.each do |u_s|
+      @reaction_users = []
+      u_s.reactions.each do |r|
+        @reaction_users.push(User.find(Reaction.find(r).user_id))
+        
+      end 
+      @skill_reaction[u_s.skill_id] = @reaction_users.empty? ? "" : @reaction_users ;
+    end
   end
 
   # GET /users/new
@@ -94,6 +106,26 @@ class UsersController < ApplicationController
       redirect_to :action => "show", :id => params[:user_id]
     end
 
+  end
+
+  # ユーザーのスキルにreactionを追加
+  def add_reaction
+    user_skill = UserSkill.where(user_id: params[:user_id] ,skill_id: params[:skill_id]).first
+    # 既に同じユーザーがreactionをつけているか
+    if(user_skill.reactions.exists?(user_id: current_user.id))
+      flash[:danger] = "reactionを既にしています"
+      redirect_to :action => "show", :id => params[:user_id]
+    else
+      # reactionをつけたことがない場合reactionを追加
+      reaction = Reaction.new(user_skill_id: user_skill.id, user_id: current_user.id)
+      if(reaction.save)
+        flash[:success] = "reactionを追加しました"
+        redirect_to :action => "show", :id => params[:user_id]
+      else
+        flash[:danger] = "reactionを追加できませんでした"
+        redirect_to :action => "show", :id => params[:user_id]
+      end
+    end
   end
 
   private
