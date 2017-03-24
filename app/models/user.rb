@@ -35,7 +35,7 @@ class User < ApplicationRecord
         u_s.reactions.each do |r|
           r_users["name"] = User.find(r.user_id).name
           r_users["id"] = r.user_id
-          reaction_users.append(r_users)
+          reaction_users.push(r_users.dup)
         end
         item["reaction_users"] = reaction_users
         item["count"] = u_s.reactions.length
