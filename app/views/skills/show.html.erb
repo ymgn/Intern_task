@@ -1,9 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @skill.name %>
-</p>
-
-<%= link_to 'Edit', edit_skill_path(@skill) %> |
-<%= link_to 'Back', skills_path %>
+<h1><%= @skill.name %></h2>
+<div class="center">
+  <h2>このスキルを持っている他のユーザー</h2>
+  <% @skill_user.each do |s_u|%>
+    <li><a href="/users/<%= s_u.id %>"><%= s_u.name %></a></li>
+  <% end %>
+</div>
+<%= link_to 'スキル一覧へ', skills_path %>
