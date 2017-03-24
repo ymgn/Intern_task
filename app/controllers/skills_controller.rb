@@ -10,6 +10,8 @@ class SkillsController < ApplicationController
   # GET /skills/1
   # GET /skills/1.json
   def show
+    skill = Skill.find(params[:id])
+    @skill_user = skill.user
   end
 
   # GET /skills/new
