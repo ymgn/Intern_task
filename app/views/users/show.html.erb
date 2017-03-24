@@ -44,10 +44,14 @@
           <% end %>
         </td>
         <td><%= link_to 'Show', skill %></td>
-        <%= form_tag("/users/#{params[:id]}/#{skill.id}", method: "post", :name => :reaction) do %>
-        <td>
-          <%= submit_tag("+1") %>
-        </td>
+        <% if logged_in? %>
+          <% if params[:id].to_i != @current_user.id %>
+            <%= form_tag("/users/#{params[:id]}/#{skill.id}", method: "post", :name => :reaction) do %>
+              <td>
+                <%= submit_tag("+1") %>
+              </td>
+            <% end %>
+          <% end %>
         <% end %>
       </tr>
     <% end %>

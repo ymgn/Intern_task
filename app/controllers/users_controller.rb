@@ -10,6 +10,9 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    # ログイン中のユーザー
+    @current_user = current_user
+    # プロフィールを開かれているユーザー
     user = User.find(params[:id])
     # プロフィールのユーザーのスキル一覧
     @skills = user.skill
