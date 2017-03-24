@@ -25,19 +25,35 @@
 <% end %>
 <table>
   <tbody>
-    <% @skills.each do |skill| %>
+    <tr>
+      <th>スキル名</th>
+      <th>+の数</th>
+      <th>　+した人</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @skills_reactions.each do |skill| %>
       <tr>
-        <td><%= skill.name %></td>
-        <td><%= @skill_reaction[skill.id].length %></td>
-        <td><%= link_to 'Show', skill %></td>
-        <%= form_tag("/users/#{params[:id]}/#{skill.id}", method: "post", :name => :reaction) do %>
+        <td><a href="/skills/<%= skill['skill_id'] %>"><%= skill["name"] %></a></td>
+        <td>+<%= skill["count"] %></td>
         <td>
-          <%= submit_tag("+1") %>
+          <% if !skill["reaction_users"].nil? %>
+            <% skill["reaction_users"].each do |s_r| %>
+              <a href="user/<%= s_r['id'] %>"><%= s_r["name"] %></a>
+            <% end %>
+          <% end %>
         </td>
+        <% if logged_in? %>
+          <% if params[:id].to_i != @current_user.id %>
+            <%= form_tag("/users/#{params[:id]}/#{skill["skill_id"]}", method: "post", :name => :reaction) do %>
+              <td>
+                <%= submit_tag("+1") %>
+              </td>
+            <% end %>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-<%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

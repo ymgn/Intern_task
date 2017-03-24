@@ -10,19 +10,15 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    # ログイン中のユーザー
+    @current_user = current_user
+    # プロフィールを開かれているユーザー
     user = User.find(params[:id])
     # プロフィールのユーザーのスキル一覧
     @skills = user.skill
     # スキルのリアクション数
-    @skill_reaction = {}
-    user.user_skills.each do |u_s|
-      @reaction_users = []
-      u_s.reactions.each do |r|
-        @reaction_users.push(User.find(Reaction.find(r).user_id))
-        
-      end 
-      @skill_reaction[u_s.skill_id] = @reaction_users.empty? ? "" : @reaction_users ;
-    end
+    @skills_reactions = user.skills_reaction
+    # ユーザーが所持しているスキルを回す
   end
 
   # GET /users/new
