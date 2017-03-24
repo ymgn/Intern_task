@@ -61,6 +61,15 @@ class ReactionsController < ApplicationController
     end
   end
 
+  # プロフィールからリアクションを消す
+  def delete
+      user_skill = UserSkill.where(user_id: params[:id],skill_id: params[:skill_id]).first
+      reaction = Reaction.where(user_skill_id: user_skill.id, user_id: current_user.id).first
+      reaction.destroy
+      flash[:success] = "リアクションを削除しました"
+      redirect_to :back
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_reaction

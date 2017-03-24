@@ -45,14 +45,20 @@
         </td>
         <% if logged_in? %>
           <% if params[:id].to_i != @current_user.id %>
-            <%= form_tag("/users/#{params[:id]}/#{skill["skill_id"]}", method: "post", :name => :reaction) do %>
+            <% if !skill["reaction_users"].nil? && !skill["reaction_users"].select {|ary| ary["id"] == current_user.id }.empty? %>
               <td>
-                <%= submit_tag("+1") %>
+                <%= button_to '+1を外す',"/users/#{params[:id]}/reaction_delete/#{skill["skill_id"]}", method: :delete  %>
               </td>
+            <% else%>
+              <%= form_tag("/users/#{params[:id]}/#{skill["skill_id"]}", method: "post", :name => :reaction) do %>
+                <td>
+                  <%= submit_tag("+1") %>
+                </td>
+              <% end %>
             <% end %>
           <% else %>
             <td>
-                <%= link_to '削除',{:controller => "user_skills", :action => "delete",:skill_id => skill["skill_id"]} , method: :delete, data: { confirm: '本当に削除しますか?' } %>
+                <%= link_to '削除',"/users/#{params[:id]}/skill_delete/#{skill["skill_id"]}" , method: :delete, data: { confirm: '本当に削除しますか?' } %>
             </td>
           <% end %>
         <% end %>

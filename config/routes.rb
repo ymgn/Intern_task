@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   # ユーザープロフィールからスキルに+1を追加する用
   post '/users/:user_id/:skill_id', to: 'users#add_reaction'
   # ユーザープロフィールからスキルを削除する時
-  delete '/users/:id/:skill_id', to: 'user_skills#delete'
+  delete '/users/:id/skill_delete/:skill_id', to: 'user_skills#delete'
+    # ユーザープロフィールからリアクションを削除する時
+  delete '/users/:id/reaction_delete/:skill_id', to: 'reactions#delete'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
