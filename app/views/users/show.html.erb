@@ -32,21 +32,21 @@
       <th></th>
       <th></th>
     </tr>
-    <% @skills.each do |skill| %>
+    <% @skills_reactions.each do |skill| %>
       <tr>
-        <td><%= skill.name %></td>
-        <td>+<%= @skill_reaction[skill.id].length %></td>
+        <td><%= skill["name"] %></td>
+        <td>+<%= skill["count"] %></td>
         <td>
-          <% if @skill_reaction[skill.id] != "" %>
-            <% @skill_reaction[skill.id].each do |s_r| %>
-              <%= s_r.name %>
+          <% if !skill["reaction_users"].nil? %>
+            <% skill["reaction_users"].each do |s_r| %>
+              <%= s_r["name"] %>
             <% end %>
           <% end %>
         </td>
         <td><%= link_to 'Show', skill %></td>
         <% if logged_in? %>
           <% if params[:id].to_i != @current_user.id %>
-            <%= form_tag("/users/#{params[:id]}/#{skill.id}", method: "post", :name => :reaction) do %>
+            <%= form_tag("/users/#{params[:id]}/#{skill["id"]}", method: "post", :name => :reaction) do %>
               <td>
                 <%= submit_tag("+1") %>
               </td>
