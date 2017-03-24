@@ -61,6 +61,20 @@ class UserSkillsController < ApplicationController
     end
   end
 
+  # プロフィールからスキルの追加を消す
+  def delete
+    
+    if params[:id].to_i == current_user.id 
+      user_skill = UserSkill.where(user_id: params[:id],skill_id: params[:skill_id]).first
+      user_skill.destroy
+      flash[:success] = "スキルを削除しました"
+      redirect_to :back
+    else
+      flash[:danger] = "スキルを削除できませんでした"
+      redirect_to :back
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user_skill

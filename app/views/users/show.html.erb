@@ -39,7 +39,7 @@
         <td>
           <% if !skill["reaction_users"].nil? %>
             <% skill["reaction_users"].each do |s_r| %>
-              <a href="user/<%= s_r['id'] %>"><%= s_r["name"] %></a>
+              <a href="/users/<%= s_r['id'] %>"><%= s_r["name"] %></a>
             <% end %>
           <% end %>
         </td>
@@ -50,6 +50,10 @@
                 <%= submit_tag("+1") %>
               </td>
             <% end %>
+          <% else %>
+            <td>
+                <%= link_to '削除',{:controller => "user_skills", :action => "delete",:skill_id => skill["skill_id"]} , method: :delete, data: { confirm: '本当に削除しますか?' } %>
+            </td>
           <% end %>
         <% end %>
       </tr>
