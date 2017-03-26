@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320073234) do
+ActiveRecord::Schema.define(version: 20170326055446) do
 
   create_table "reactions", force: :cascade do |t|
     t.integer  "user_skill_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20170320073234) do
     t.datetime "updated_at",      null: false
     t.string   "email"
     t.string   "password_digest"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
